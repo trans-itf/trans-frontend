@@ -34,6 +34,10 @@
                 $("button").text("Loading...")
                 var body_width = $(".img").width();
                 fetch("http://127.0.0.1:8020").then(ret => ret.json()).then(data => {
+                    if (data["info"] ==  "no change") {
+                        $("button").text("No change")
+                        return
+                    }
                     var data = data["ret"]
                     var size = data[1]
                     var mag = body_width / size[0]
