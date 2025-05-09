@@ -35,7 +35,11 @@
                 var body_width = $(".img").width();
                 fetch("http://127.0.0.1:8020").then(ret => ret.json()).then(data => {
                     if (data["info"] ==  "no change") {
+                        $("img").attr("src", "http://127.0.0.1:8020/static/screenshot.png");   
                         $("button").text("No change")
+                        $("button").on("click", function() {
+                            location.reload();
+                        });
                         return
                     }
                     var data = data["ret"]
