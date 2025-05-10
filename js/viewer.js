@@ -69,12 +69,15 @@ class TranslationViewer {
     }
 
     render() {
+        if (!this.backgroundImage) {
+            return;
+        }
+
         const bufCanvas = new OffscreenCanvas(this.backgroundImage.width, this.backgroundImage.height);
         const bufCtx = bufCanvas.getContext("2d");
 
-        if (this.backgroundImage) {
-            bufCtx.drawImage(this.backgroundImage, 0, 0);
-        }
+        // 背景の描画
+        bufCtx.drawImage(this.backgroundImage, 0, 0);
 
         // 翻訳ボックスの描画
         for (const item of this.transItems) {
@@ -150,6 +153,7 @@ async function getTranslatedItems(blob) {
 
 async function startCapture(canvas, rate) {
     try {
+        // 画面キャプチャの開始
         const stream = await navigator.mediaDevices.getDisplayMedia({
             video: true,
             audio: false,
@@ -159,6 +163,8 @@ async function startCapture(canvas, rate) {
         const icap = new ImageCapture(track);
 
         const viewer = new TranslationViewer(canvas);
+
+        // キャンバスのサイズをDOMに合わせる
         const rect = canvas.getBoundingClientRect();
         canvas.width = rect.width;
         canvas.height = rect.height;
@@ -170,8 +176,10 @@ async function startCapture(canvas, rate) {
                 const blob = await tempCanvas.convertToBlob({ type: "image/png" })
                 const bg = await createImageBitmap(tempCanvas);
 
+                // サーバにキャプチャ結果を送信し、翻訳結果を得る
                 let items = await getTranslatedItems(blob);
 
+                // 描画の更新
                 viewer.update(items, bg);
             }).catch((err) => {
                 console.error("grabFrame() error: ", err);
