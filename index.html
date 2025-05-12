@@ -12,7 +12,8 @@
 </head>
 <body>
     <div style="width: 100%; height: 100%; background-color: #f0f0f0; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-        <button>Click</button>
+        <button class="button">Click</button>
+        <button class="button-sec">Reload</button>
         <div class="img" style="position: relative; width: 100%; background-color: #f0f0f0;">
             <img src="" alt="Image" style="width: 100%; height: auto; position: absolute; top: 0; left: 0; z-index: -1;">
         </div>
@@ -29,17 +30,21 @@
     </style>
     <script>
         $(function() {
-            $("button").on("click", function() {
+            $(".button-sec").hide();
+            $(".button-sec").on("click", function() {
+                location.reload();
+            });
+            $(".button").on("click", function() {
                 console.log("Button clicked!");
-                $("button").text("Loading...")
+                $(".button").text("Loading...")
                 var body_width = $(".img").width();
                 fetch("http://127.0.0.1:8020").then(ret => ret.json()).then(data => {
+                    alert(data["info"]);
                     if (data["info"] ==  "no change") {
                         $("img").attr("src", "http://127.0.0.1:8020/static/screenshot.png");   
-                        $("button").text("No change")
-                        $("button").on("click", function() {
-                            location.reload();
-                        });
+                        $(".button").text("No change")
+                        $(".button").hide();
+                        $(".button-sec").show();
                         return
                     }
                     var data = data["ret"]
@@ -68,12 +73,11 @@
                         $(".box").css("background-color", "rgba(255, 255, 255, 0.85)").css("color", "black")
                         $(".appear").css("background-color", "transparent").css("color", "transparent");
                     });
-                    $("button").text("Click")
-                    $("button").on("click", function() {
-                        location.reload();
-                    });
+                    $(".button").text("Click")
                     $(".box").css("background-color", "rgba(255, 255, 255, 0.85)")
                     $(".box").css("border", "1px solid black")
+                    $(".button").hide();
+                    $(".button-sec").show();
              });
             });
         });
