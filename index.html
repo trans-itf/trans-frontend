@@ -39,42 +39,6 @@
                 $(".status").text("Loading...")
                 var body_width = $(".img").width();
                 fetch("http://127.0.0.1:8020?width=" + body_width).then(ret => ret.json()).then(data => {
-                    if (data["info"] ==  "no change") {
-                        $("img").attr("src", "http://127.0.0.1:8020/static/screenshot.png");   
-                        var data = JSON.parse(localStorage.getItem("data"));
-                        var mag = JSON.parse(localStorage.getItem("mag"));
-                        for( i of data){
-                            console.log(i);
-                            var el = $("<div></div>");
-                            el.text(i[1]);
-                            f_size = i[3]
-                            i = i[2]
-
-                            el.addClass("box");
-                            el.css("width", ((i[1][0] - i[0][0]) * mag) + "px");
-                            el.css("height", ((i[2][1] - i[1][1]) * mag) + "px");
-                            el.css("background-color", "rgba(255, 255, 255, 0.85)");
-                            el.css("position", "absolute");
-                            el.css("left", (i[0][0] * mag) + "px");
-                            el.css("top", (i[0][1] * mag )+ "px");
-                            el.css("font-size", f_size + "px");
-                            el.css("line-height", f_size + "px");
-                            $(".img").append(el);
-                        }
-                        $(".box").on("click", function() {
-                            $(this).toggleClass("appear")
-                            $(".box").css("background-color", "rgba(255, 255, 255, 0.85)").css("color", "black")
-                            $(".appear").css("background-color", "transparent").css("color", "transparent");
-                        });
-                        $(".box").css("background-color", "rgba(255, 255, 255, 0.85)")
-                        $(".box").css("border", "1px solid black")
-                        $(".status").text("No change")
-
-                        setTimeout(function() {
-                            location.reload();
-                        }, 5000);
-                        return
-                    }
                     var data = data["ret"]
                     var size = data[1]
                     var mag = body_width / size[0]
@@ -111,6 +75,7 @@
                     $(".box").css("border", "1px solid black")
                     $(".status").text("Loading complete")
                     setInterval(function() {
+                        $(".status").text("Loading...")
                         fetch("http://127.0.0.1:8020/change").then(ret => ret.json()).then(data => {
                             data["info"] ==  "no change" ? $(".status").text("No change") : $(".status").text("Change detected")
                             if (data["info"] ==  "no change") {
@@ -120,7 +85,7 @@
                             }
                         })
 
-                    }, 1000);
+                    }, 2000);
 
             });
         });
