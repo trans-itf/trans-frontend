@@ -110,9 +110,17 @@
                     $(".box").css("background-color", "rgba(255, 255, 255, 0.85)")
                     $(".box").css("border", "1px solid black")
                     $(".status").text("Loading complete")
-                    setTimeout(function() {
-                        location.reload();
-                    }, 5000);
+                    setInterval(function() {
+                        fetch("http://127.0.0.1:8020/change").then(ret => ret.json()).then(data => {
+                            data["info"] ==  "no change" ? $(".status").text("No change") : $(".status").text("Change detected")
+                            if (data["info"] ==  "no change") {
+                                return
+                            }else{
+                                location.reload();
+                            }
+                        })
+
+                    }, 1000);
 
             });
         });
