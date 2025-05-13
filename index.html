@@ -38,7 +38,7 @@
 
                 $(".status").text("Loading...")
                 var body_width = $(".img").width();
-                fetch("http://127.0.0.1:8020").then(ret => ret.json()).then(data => {
+                fetch("http://127.0.0.1:8020?width=" + body_width).then(ret => ret.json()).then(data => {
                     if (data["info"] ==  "no change") {
                         $("img").attr("src", "http://127.0.0.1:8020/static/screenshot.png");   
                         var data = JSON.parse(localStorage.getItem("data"));
@@ -47,7 +47,9 @@
                             console.log(i);
                             var el = $("<div></div>");
                             el.text(i[1]);
+                            f_size = i[3]
                             i = i[2]
+
                             el.addClass("box");
                             el.css("width", ((i[1][0] - i[0][0]) * mag) + "px");
                             el.css("height", ((i[2][1] - i[1][1]) * mag) + "px");
@@ -55,6 +57,8 @@
                             el.css("position", "absolute");
                             el.css("left", (i[0][0] * mag) + "px");
                             el.css("top", (i[0][1] * mag )+ "px");
+                            el.css("font-size", f_size + "px");
+                            el.css("line-height", f_size + "px");
                             $(".img").append(el);
                         }
                         $(".box").on("click", function() {
@@ -83,6 +87,7 @@
                         console.log(i);
                         var el = $("<div></div>");
                         el.text(i[1]);
+                        f_size = i[3]
                         i = i[2]
                         el.addClass("box");
                         el.css("width", ((i[1][0] - i[0][0]) * mag) + "px");
@@ -91,6 +96,8 @@
                         el.css("position", "absolute");
                         el.css("left", (i[0][0] * mag) + "px");
                         el.css("top", (i[0][1] * mag )+ "px");
+                        el.css("font-size", f_size + "px");
+                        el.css("line-height", f_size + "px");
                         $(".img").append(el);
                     }
                     $("img").attr("src", "http://127.0.0.1:8020/static/screenshot.png");   
