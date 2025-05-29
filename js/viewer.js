@@ -21,10 +21,10 @@ export class BoundingBox {
     }
 
     static fromVertices(vertices) {
-        const x = vertices[0][0];
-        const y = vertices[0][1];
-        const width = vertices[1][0] - vertices[0][0];
-        const height = vertices[2][1] - vertices[0][1];
+        const x = vertices[0]["x"];
+        const y = vertices[0]["y"];
+        const width = vertices[1]["x"] - vertices[0]["x"];
+        const height = vertices[2]["y"] - vertices[0]["y"];
         return new BoundingBox(x, y, width, height);
     }
 }
@@ -130,5 +130,9 @@ export class TranslationViewer {
         this.canvas.width = entry.devicePixelContentBoxSize[0].inlineSize;
         this.canvas.height = entry.devicePixelContentBoxSize[0].blockSize;
         this.render();
+    }
+
+    getBackgroundImage() {
+        return this.backgroundImage;
     }
 }
